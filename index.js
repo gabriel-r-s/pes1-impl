@@ -58,6 +58,6 @@ app.get("/add/:num", (req, res) => {
 })
 
 app.get("*", (req, res) => {
-    res.send("Not found");
+    res.render("404");
 })
 
