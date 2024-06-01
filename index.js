@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
-const PORT = 3006;
+const PORT = 8080;
 
 let nums = [1, 2, 3];
 
