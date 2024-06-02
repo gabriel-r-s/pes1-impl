@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            function get_feedback() {
+                const query = window.location.search.substring(1);
+                const id = query.split("=")[1];
+                const url = `/feedback?id=${encodeURIComponent(id)}`;
+                const req = new XMLHttpRequest();
+                req.open("GET", url, true);
+                req.onload = () => {
+                    if (req.readyState === req.DONE) {
+                        const res = req.responseText;
+                        const feedback = JSON.parse(res);
+                        document.getElementById("feedback").value = feedback.text;
+                    }
+                }
+                req.send(null);
+            }
+
+            function put_feedback() {
+                const query = window.location.search.substring(1);
+                const id = query.split("=")[1];
+                const text = document.getElementById("feedback").value;
+                const url = `/feedback?id=${encodeURIComponent(id)}&text=${encodeURIComponent(text)}`;
+                const req = new XMLHttpRequest();
+                req.open("PUT", url, true);
+                req.onload = () => {
+                    if (req.readyState === req.DONE) {
+                    }
+                }
+                req.send(null);
+            }
+        </script>
+     </head>
+     <body>
+         <%- include("navbar.ejs") %>
+         <main>
+             <label for="feedback">Alterar feedback:</label>
+             <br>
+             <textarea id="feedback" name="feedback" rows="10" cols="80"></textarea>
+             <button onClick="put_feedback()">Alterar</button>
+         </main>
+         <script>
+             get_feedback();
+         </script>
+     </body>
+</html>

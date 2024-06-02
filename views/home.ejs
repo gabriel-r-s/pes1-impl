@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title></title>
+        <title>Home</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+        <script>
+            async function send_feedback() {
+                const text = document.getElementById("feedback").value;
+                const url = `/feedback?text=${encodeURIComponent(text)}`;
+                const req = new XMLHttpRequest();
+                req.open("POST", url, true);
+                console.log("sending", req);
+                req.onload = () => {
+                    console.log("onload", req);
+                    if (req.readyState === req.DONE) {
+                        const res = req.responseText;
+                        console.log("got", res);
+                    }
+                }
+                req.send(null);
+            }
+        </script>
     </head>
     <body>
         <%- include("navbar.ejs") %>
         <main>
-            <h1>Home </h1>
-            <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
-            <table>
-            </table>
+            <label for="feedback">Enviar feedback:</label>
+            <br>
+            <textarea id="feedback" name="feedback" rows="10" cols="80"></textarea>
+            <br>
+            <button onClick="send_feedback()">Enviar</button>
         </main>
     </body>
 </html>
+

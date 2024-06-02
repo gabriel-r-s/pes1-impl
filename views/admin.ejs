@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            table {
+                table-layout: auto;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table td {
+                border: 1px solid;
+                word-wrap: break-word;
+            }
+            table .absorbing-column {
+                width: 100%;
+            }
+
+        </style>
+        <script>
+            function get_feedbacks() {
+                const req = new XMLHttpRequest();
+                req.open("GET", "/feedback", true);
+                req.onload = () => {
+                    if (req.readyState === req.DONE) {
+                        const res = req.responseText;
+                        const feedbacks = JSON.parse(res);
+                        // console.log(res);
+                        let unread = ""
+                        let read = ""
+                        for (let feedback of feedbacks) {
+                            const tr = `<tr>
+                                <td>
+                                    ${feedback.id}
+                                </td>
+                                <td class="absorbing-column">
+                                    ${feedback.text}
+                                </td>
+                                <td>
+                                    <button onClick="window.location.replace('/update?id=${feedback.id}')">Editar</button>
+                                </td>
+                                <td>
+                                    <button onClick="del_feedback(${feedback.id})">Deletar</button>
+                                </td>
+                            </tr>`;
+                            if (feedback.read) {
+                                read += tr;
+                            } else {
+                                unread += tr;
+                            }
+                        }
+                        if (unread === "") {
+                            unread = "<td><br></td>"
+                        }
+                        if (read === "") {
+                            read = "<td><br></td>"
+                        }
+                        document.getElementById("read").innerHTML = read;
+                        document.getElementById("unread").innerHTML = unread;
+                    }
+                }
+                req.send(null);
+            }
+
+            function del_feedback(id) {
+                console.log(`called del ${id}`);
+                const url = `/feedback?id=${encodeURIComponent(id)}`
+                const req = new XMLHttpRequest();
+                req.open("DELETE", url, true);
+                req.send(null);
+                get_feedbacks();
+            }
+        </script>
+    </head>
+    <body>
+        <%- include("navbar.ejs") %>
+        <main>
+            <button onClick="get_feedbacks()">Atualizar</button>
+            <br>
+            <label for="unread"><b>Mensagens Novas:</b></label>
+            <table id="unread"></table>
+            <label for="unread"><b>Mensagens Lidas:</b></label>
+            <table id="read"></table>
+        </main>
+        <script>
+            get_feedbacks();
+        </script>
+    </body>
+</html>
+
