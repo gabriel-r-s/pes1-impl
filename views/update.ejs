@@ -28,10 +28,6 @@
                 const url = `/feedback?id=${encodeURIComponent(id)}&txt=${encodeURIComponent(txt)}`;
                 const req = new XMLHttpRequest();
                 req.open("PUT", url, true);
-                req.onload = () => {
-                    if (req.readyState === req.DONE) {
-                    }
-                }
                 req.send(null);
             }
         </script>

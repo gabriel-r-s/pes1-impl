@@ -1,16 +1,19 @@
 {
-  "name": "sec34",
-  "version": "1.0.0",
+  "name": "pes1-impl",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon main.js -w routes -w views -w main.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
   }
 }
