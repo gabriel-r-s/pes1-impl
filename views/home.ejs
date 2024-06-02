@@ -6,19 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script>
             async function send_feedback() {
-                const text = document.getElementById("feedback").value;
-                const url = `/feedback?text=${encodeURIComponent(text)}`;
+                const txt = document.getElementById("feedback").value;
+                if (txt === "") {
+                    return;
+                }
+                const url = `/feedback?txt=${encodeURIComponent(txt)}`;
                 const req = new XMLHttpRequest();
                 req.open("POST", url, true);
                 console.log("sending", req);
-                req.onload = () => {
-                    console.log("onload", req);
-                    if (req.readyState === req.DONE) {
-                        const res = req.responseText;
-                        console.log("got", res);
-                    }
-                }
                 req.send(null);
+                document.getElementById("feedback").value = "";
             }
         </script>
     </head>

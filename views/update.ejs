@@ -15,7 +15,7 @@
                     if (req.readyState === req.DONE) {
                         const res = req.responseText;
                         const feedback = JSON.parse(res);
-                        document.getElementById("feedback").value = feedback.text;
+                        document.getElementById("feedback").value = feedback.txt;
                     }
                 }
                 req.send(null);
@@ -24,8 +24,8 @@
             function put_feedback() {
                 const query = window.location.search.substring(1);
                 const id = query.split("=")[1];
-                const text = document.getElementById("feedback").value;
-                const url = `/feedback?id=${encodeURIComponent(id)}&text=${encodeURIComponent(text)}`;
+                const txt = document.getElementById("feedback").value;
+                const url = `/feedback?id=${encodeURIComponent(id)}&txt=${encodeURIComponent(txt)}`;
                 const req = new XMLHttpRequest();
                 req.open("PUT", url, true);
                 req.onload = () => {
