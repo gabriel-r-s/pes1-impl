@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const { LoremIpsum } = require("lorem-ipsum");
 
 class Feedback {
     constructor(id, txt, read) {
@@ -12,14 +13,10 @@ class FeedbackManager {
     constructor() {
         this.db = new sqlite3.Database("./db.sqlite3");
         this.db.run("CREATE TABLE IF NOT EXISTS feedbacks(id INTEGER PRIMARY KEY, txt TEXT NOT NULL, read BOOL NOT NULL) ");
-        const lorem = [
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida metus id augue volutpat varius. Quisque posuere ligula et tellus pellentesque, ac finibus enim convallis.",
-            "Quisque imperdiet pretium mauris, in facilisis leo pretium quis. Aenean ut nisi justo. Nunc odio neque, posuere nec viverra a, fringilla sit amet neque. Morbi id massa ultrices, pharetra lorem nec, rutrum turpis. Nullam pharetra tincidunt luctus. Suspendisse ac magna eleifend, viverra arcu eu, consequat augue. Phasellus elementum nisl nisi.",
-            "Duis iaculis varius erat scelerisque mattis. Duis vel tellus et urna egestas posuere. Fusce nec quam mauris. Nulla faucibus purus sed fringilla posuere.",
-            "Integer finibus elementum arcu eu elementum. Proin eleifend ligula mi, vitae auctor odio interdum in. Pellentesque a diam ex. Fusce interdum metus et risus fringilla, at finibus mauris commodo. Nam in felis arcu. Maecenas accumsan vulputate tincidunt."
-        ];
-        for (let i = 0; i < lorem.length; i++) {
-            this.db.run("INSERT OR REPLACE INTO feedbacks(id, txt, read) VALUES (?, ?, ?)", i+1, lorem[i], false);
+        const lorem = new LoremIpsum();
+        for (let i = 1; i <= 6; i++) {
+            const txt = lorem.generateParagraphs(1);
+            this.db.run("INSERT OR REPLACE INTO feedbacks(id, txt, read) VALUES (?, ?, ?)", i, txt, false);
         }
     }
 
